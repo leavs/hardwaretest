@@ -233,8 +233,8 @@ void MainWindow::BoardSetting()
 
 void MainWindow::boardInit()
 {
-    ui->radioButton_imx6q->setChecked(true);
-    ui->radioButton_imx6d->setDisabled(true);
+    ui->radioButton_imx6q->setDisabled(true);
+    ui->radioButton_imx6d->setChecked(true);
     ui->radioButton_imx6u->setDisabled(true);
     ui->radioButton_am335x->setDisabled(true);
     ui->radioButton_bbb_exp->setDisabled(true);
