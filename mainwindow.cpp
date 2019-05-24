@@ -410,9 +410,12 @@ void MainWindow::audioInit()
     connect(ui->pushButton_audio,&QPushButton::clicked,this,&MainWindow::AudioTest);
     connect(ui->pushButton_audio,&QPushButton::clicked,this,&MainWindow::ChangeVolume);
     connect(ui->pushButton_record,&QPushButton::clicked,this,&MainWindow::RecordTest);
-    if(board == "imx6q" || board == "imx6d" || board == "imx6u"){
+    if(board == "imx6q" || board == "imx6d"){
         ui->horizontalSlider_audio_volume->setRange(60,127);
         ui->horizontalSlider_audio_volume->setValue(127);
+    }else if(board == "imx6u"){
+        ui->horizontalSlider_audio_volume->setRange(60,100);
+        ui->horizontalSlider_audio_volume->setValue(100);
     }else if(board == "am3354"){
     }else if (board == "bbbexp"){}
     connect(ui->horizontalSlider_audio_volume,&QSlider::valueChanged,this,&MainWindow::ChangeVolume);
