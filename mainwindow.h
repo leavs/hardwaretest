@@ -36,6 +36,8 @@ private slots:
     void DisableBuzzer();
     void ChangeBuzzerState();
     void VideoTest();
+    void LCDTest();
+    void TouchTest();
     void ChangeBacklight();
     int MaxBacklighValue();
     int GetBacklightValue();
