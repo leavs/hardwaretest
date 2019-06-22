@@ -424,7 +424,7 @@ void MainWindow::audioInit()
 /*
  *  Display
  *
- *  VideoTest() ChangeBacklight() MaxBacklightValue() GetBacklightValue() displayInit()
+ *  VideoTest() ChangeBacklight() MaxBacklightValue() GetBacklightValue() LCDTest() TouchTest() displayInit()
  *
  */
 
@@ -468,9 +468,21 @@ int MainWindow::GetBacklightValue()
         return GetFileValue(backlightpath).toInt();
 }
 
+void MainWindow::LCDTest()
+{
+    system("/usr/bin/LCDTester");
+}
+
+void MainWindow::TouchTest()
+{
+    system("/usr/bin/ts_test > /dev/null");
+}
+
 void MainWindow::displayInit()
 {
     connect(ui->pushButton_video,&QPushButton::clicked,this,&MainWindow::VideoTest);
+    connect(ui->pushButton_lcdtest,&QPushButton::clicked,this,&MainWindow::LCDTest);
+    connect(ui->pushButton_touchtest,&QPushButton::clicked,this,&MainWindow::TouchTest);
     connect(ui->pushButton_video,&QPushButton::clicked,this,&MainWindow::ChangeVolume);
 
     ui->horizontalSlider_backlight->setRange(1,MaxBacklighValue());
@@ -670,11 +682,19 @@ void MainWindow::serialInit()
 void MainWindow::wifiEnable()
 {
     ui->textBrowser_network_text->clear();
+#if 0
     ui->textBrowser_network_text->setText("WIFI Enabling!!");
     system("ifconfig wlan0 up &");
     system("wifienable.sh &");
     QMessageBox::warning(this,"Tips","Need Time to complete, Press OK to wait.");
     this->ui->textBrowser_network_text->setText("WIFI Enabled!");
+#else
+    popen("ifconfig wlan0 up","r");
+    popen("wifienable.sh","r");
+    this->ui->textBrowser_network_text->setText("WIFI will be open in background, press \"Network Info\" to check\n\n\n\n*NOTE:\nUsing follow command to config YOURS wifi ssid and password first\n\n#wpa_passphrase \"wifi_ssid\" \"wifi_password\" >> /etc/wpa_supplicant.conf\n\nExample:\nctrl_interface=/var/run/wpa_supplicant\nctrl_interface_group=0\nctrl_interface_group=0\nnetwork={\n        ssid=\"wifi_ssid\"\n        #psk=\"wifi_password\"\n        psk=0fbbe9e700815707d38305d89e3260f3b2334d0a0979c61be8eeea6ca9b0cd64\n}");
+    this->ui->pushButton_netInfo->setText("Network Info");
+    QMessageBox::warning(this,"Tips","Need Time to complete, Press OK to wait.");
+#endif
 }
 
 void MainWindow::wifiDisable()
@@ -683,6 +703,7 @@ void MainWindow::wifiDisable()
     ui->textBrowser_network_text->setText("WIFI Disabling!!");
     system("ifconfig wlan0 down");
     ui->textBrowser_network_text->setText("WIFI Disabled!!");
+    this->ui->pushButton_netInfo->setText("Network Info");
 }
 
 void MainWindow::wifiInfoDisplay()
@@ -691,6 +712,7 @@ void MainWindow::wifiInfoDisplay()
     system(cmdstr.toLocal8Bit());
     ui->textBrowser_network_text->clear();
     ui->textBrowser_network_text->setText(GetFileValue(TEMPFILEPATH));
+    this->ui->pushButton_netInfo->setText("Refresh");
 }
 
 void MainWindow::getipInfo()
