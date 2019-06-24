@@ -313,21 +313,20 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QPushButton" name="pushButton_touchtest">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>TouchTest</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_display_2">
@@ -1168,12 +1167,12 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroup_board"/>
+  <buttongroup name="buttonGroup_out_1"/>
   <buttongroup name="buttonGroup_led2"/>
   <buttongroup name="buttonGroup_out_4"/>
-  <buttongroup name="buttonGroup_out_1"/>
-  <buttongroup name="buttonGroup_out_2"/>
   <buttongroup name="buttonGroup_out_3"/>
   <buttongroup name="buttonGroup_led1"/>
-  <buttongroup name="buttonGroup_board"/>
+  <buttongroup name="buttonGroup_out_2"/>
  </buttongroups>
 </ui>
