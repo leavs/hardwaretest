@@ -125,6 +125,8 @@ private:
     void BoardSetting();
     QString GetTempFileValue();
     QString GetFileValue(QString);
+    QString GetComResult(QString);
+    QString GetPlat();
     void fillPortsParameters();
     void gpioExport(QString);
     void boardInit();

@@ -120,7 +120,7 @@ MainWindow::~MainWindow()
 /*
  *  Global Function
  *
- *  GetTempFileValue() GetFileValue()
+ *  GetTempFileValue() GetFileValue() GetComResult() GetPlat()
  *
  */
 
@@ -153,6 +153,36 @@ QString MainWindow::GetFileValue(QString filePath)
         return NULL;
 
     file.close();
+}
+
+QString MainWindow::GetComResult(QString cmd)
+{
+    QProcess process;
+    process.start(cmd);
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    QString result = output;
+    return result;
+}
+
+QString MainWindow::GetPlat()
+{
+    QString plat;
+    QString cpucore = GetComResult("grep -c processor /proc/cpuinfo");
+    QString imx6qdlul = GetComResult("grep -c Freescale /proc/cpuinfo");
+//    qDebug() << cpucore.left(1);
+//    qDebug() << imx6qdlul.left(1);
+
+    if(imx6qdlul.left(1) == "1"){
+        if(cpucore.left(1) == "4"){
+            plat = "imx6q";
+        } else if (cpucore.left(1) == "2"){
+            plat = "imx6dl";
+        } else if (cpucore.left(1) == "1"){
+            plat = "imx6ul";
+        }
+     }
+    return plat;
 }
 
 /*
@@ -233,11 +263,30 @@ void MainWindow::BoardSetting()
 
 void MainWindow::boardInit()
 {
-    ui->radioButton_imx6q->setDisabled(true);
-    ui->radioButton_imx6d->setDisabled(true);
-    ui->radioButton_imx6u->setChecked(true);
-    ui->radioButton_am335x->setDisabled(true);
-    ui->radioButton_bbb_exp->setDisabled(true);
+    QString cpu = GetPlat();
+
+    //qDebug() << cpu;
+
+    if (cpu == "imx6q") {
+        ui->radioButton_imx6q->setChecked(true);
+        ui->radioButton_imx6d->setDisabled(true);
+        ui->radioButton_imx6u->setDisabled(true);
+        ui->radioButton_am335x->setDisabled(true);
+        ui->radioButton_bbb_exp->setDisabled(true);
+    } else if (cpu == "imx6dl") {
+        ui->radioButton_imx6q->setDisabled(true);
+        ui->radioButton_imx6d->setChecked(true);
+        ui->radioButton_imx6u->setDisabled(true);
+        ui->radioButton_am335x->setDisabled(true);
+        ui->radioButton_bbb_exp->setDisabled(true);
+    } else if (cpu == "imx6ul"){
+        ui->radioButton_imx6q->setDisabled(true);
+        ui->radioButton_imx6d->setDisabled(true);
+        ui->radioButton_imx6u->setChecked(true);
+        ui->radioButton_am335x->setDisabled(true);
+        ui->radioButton_bbb_exp->setDisabled(true);
+    }
+
     BoardSetting();
     connect(ui->pushButton_exit,&QPushButton::clicked,this,&MainWindow::close);
 }
