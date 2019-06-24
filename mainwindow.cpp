@@ -482,7 +482,7 @@ void MainWindow::displayInit()
 {
     connect(ui->pushButton_video,&QPushButton::clicked,this,&MainWindow::VideoTest);
     connect(ui->pushButton_lcdtest,&QPushButton::clicked,this,&MainWindow::LCDTest);
-    connect(ui->pushButton_touchtest,&QPushButton::clicked,this,&MainWindow::TouchTest);
+    //connect(ui->pushButton_touchtest,&QPushButton::clicked,this,&MainWindow::TouchTest);
     connect(ui->pushButton_video,&QPushButton::clicked,this,&MainWindow::ChangeVolume);
 
     ui->horizontalSlider_backlight->setRange(1,MaxBacklighValue());
