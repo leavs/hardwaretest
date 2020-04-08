@@ -99,16 +99,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // NetWork
     networkInit();
 
-    // USB
-    usbInit();
-
     // GPIO
     gpioInit();
 
     // CAN
     canInit();
 
-    // AutoTest
+    // AutoTest, used for chipsee autotest
 //    autotestInit();
 }
 
@@ -727,7 +724,7 @@ void MainWindow::serialInit()
 /*
  *  NetWork
  *
- *  wifiEnable() wifiDisable() wifiDisplayInfo() networkInit() getipInfo()
+ *  wifiEnable() wifiDisable() wifiDisplayInfo() networkInit() getipInfo() networkautotest()
  *
  */
 
@@ -780,9 +777,13 @@ void MainWindow::networkInit()
     connect(ui->pushButton_wifiEnable,&QPushButton::clicked,this,&MainWindow::wifiEnable);
     connect(ui->pushButton_wifiDisable,&QPushButton::clicked,this,&MainWindow::wifiDisable);
     connect(ui->pushButton_netInfo,&QPushButton::clicked,this,&MainWindow::wifiInfoDisplay);
-    //ipautotestTimer = new QTimer(this);
-    //connect(ipautotestTimer,SIGNAL(timeout()),this,SLOT(getipInfo()));
-    //ipautotestTimer->start(2000);
+}
+
+void MainWindow::networkautotest()
+{
+    ipautotestTimer = new QTimer(this);
+    connect(ipautotestTimer,SIGNAL(timeout()),this,SLOT(getipInfo()));
+    ipautotestTimer->start(2000);
 }
 
 
@@ -813,9 +814,9 @@ void MainWindow::getusbInfo()
 
 void MainWindow::usbInit()
 {
-    //usbautotestTimer = new QTimer(this);
-    //connect(usbautotestTimer,SIGNAL(timeout()),this,SLOT(getusbInfo()));
-    //usbautotestTimer->start(2000);
+    usbautotestTimer = new QTimer(this);
+    connect(usbautotestTimer,SIGNAL(timeout()),this,SLOT(getusbInfo()));
+    usbautotestTimer->start(2000);
 }
 
 /*
@@ -1116,6 +1117,8 @@ void MainWindow::showcanRequest(const QString &s)
 
 void MainWindow::autotestInit()
 {
+    usbInit();
+    networkautotest();
     disconnect(serial,&QSerialPort::readyRead,this,&MainWindow::readDate);
     autoTesttimer = new QTimer(this);
     connect(autoTesttimer,SIGNAL(timeout()),SLOT(autoTest()));

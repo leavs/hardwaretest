@@ -137,6 +137,7 @@ private:
     void displayInit();
     void serialInit();
     void networkInit();
+    void networkautotest();
     void usbInit();
     void gpioInit();
     void canInit();
